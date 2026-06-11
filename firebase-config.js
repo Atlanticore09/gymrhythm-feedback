@@ -27,7 +27,7 @@ export const firebaseConfig = {
 // sync. Find your uid in Firebase Console → Authentication → Users, or print
 // `Auth.auth().currentUser?.uid` from the app while signed in as yourself.
 // ---------------------------------------------------------------------------
-export const ADMIN_UID = "REPLACE_WITH_ADMIN_UID";
+export const ADMIN_UID = "awvGTUBBTvf5E8opnMMzleUmOE93";
 
 // Cloud Functions region (default). Only used for documentation/reference here.
 export const FUNCTIONS_REGION = "us-central1";
