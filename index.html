@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#ff5a1f" />
+  <meta name="robots" content="noindex" />
+  <title>GymRhythm · Feedback &amp; Roadmap</title>
+  <link rel="preconnect" href="https://www.gstatic.com" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Header -------------------------------------------------------------- -->
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="hero__brand">
+        <span class="hero__logo">G</span>
+        <span class="hero__name">GymRhythm</span>
+      </div>
+      <h1 class="hero__title">Feedback &amp; Roadmap</h1>
+      <p class="hero__subtitle">Tell us what to build next — and upvote what matters most to you.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Auth: loading ---------------------------------------------------- -->
+    <section id="state-loading" class="state">
+      <div class="spinner" aria-hidden="true"></div>
+      <p>Signing you in…</p>
+    </section>
+
+    <!-- Auth: signed out / no token -------------------------------------- -->
+    <section id="state-signedout" class="state hidden">
+      <div class="state__emoji" aria-hidden="true">🔒</div>
+      <h2>Open this page from the app</h2>
+      <p>To view and vote on feedback, tap <strong>Feedback &amp; Suggestions</strong> inside the GymRhythm app. It signs you in automatically — no extra login.</p>
+    </section>
+
+    <!-- Board ------------------------------------------------------------ -->
+    <section id="board" class="hidden">
+      <div class="toolbar">
+        <button id="btn-add" class="btn btn--primary">
+          <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+          Add Feedback
+        </button>
+      </div>
+
+      <!-- Active feedback (status != done), sorted by votes desc -->
+      <h2 class="section-heading">In consideration</h2>
+      <div id="list-active" class="list"></div>
+      <p id="empty-active" class="empty hidden">No feedback yet — be the first to suggest something. 👆</p>
+
+      <!-- Shipped / done -->
+      <div id="done-block" class="hidden">
+        <h2 class="section-heading section-heading--done">✅ Shipped</h2>
+        <div id="list-done" class="list list--done"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Add-feedback modal --------------------------------------------------- -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__card">
+      <div class="modal__head">
+        <h2 id="modal-title">Add feedback</h2>
+        <button class="modal__close" data-close aria-label="Close">&times;</button>
+      </div>
+      <form id="feedback-form">
+        <label class="field">
+          <span class="field__label">Title <em id="title-count">0/80</em></span>
+          <input id="f-title" type="text" maxlength="80" required placeholder="Short, clear summary" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span class="field__label">Details <em id="desc-count">0/500</em></span>
+          <textarea id="f-desc" maxlength="500" rows="4" placeholder="What would you like, and why? (optional)"></textarea>
+        </label>
+        <span class="field__label">Category</span>
+        <div class="seg" id="f-category" role="radiogroup" aria-label="Category">
+          <button type="button" class="seg__opt is-active" data-cat="feature" role="radio" aria-checked="true">✨ Feature</button>
+          <button type="button" class="seg__opt" data-cat="improvement" role="radio" aria-checked="false">⚡ Improvement</button>
+          <button type="button" class="seg__opt" data-cat="bug" role="radio" aria-checked="false">🐞 Bug</button>
+        </div>
+        <button id="f-submit" type="submit" class="btn btn--primary btn--block">Submit feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast ---------------------------------------------------------------- -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
