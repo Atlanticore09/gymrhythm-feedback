@@ -37,6 +37,7 @@ let currentUser = null;
 let items = [];
 const votedSet = new Set();   // feedbackIds the current user has voted on
 const checked = new Set();    // feedbackIds whose vote state we've already fetched
+const pendingVotes = new Set(); // feedbackIds with a vote write currently in flight
 let unsubscribe = null;
 
 const isAdmin = () => !!currentUser && currentUser.uid === ADMIN_UID;
@@ -209,6 +210,11 @@ function renderAdmin(item) {
 // ---------- Actions ----------
 async function toggleVote(item) {
   if (item.status === "done") return;
+  // Ignore rapid repeat clicks while a write for this item is still in flight —
+  // prevents create/delete races. The server recounts authoritatively anyway.
+  if (pendingVotes.has(item.id)) return;
+  pendingVotes.add(item.id);
+
   const ref = doc(db, "feedback", item.id, "votes", currentUser.uid);
   const had = votedSet.has(item.id);
 
@@ -228,6 +234,8 @@ async function toggleVote(item) {
     if (local) local.voteCount = Math.max(0, (local.voteCount || 0) + (had ? 1 : -1));
     render();
     toast("Couldn’t save your vote", true);
+  } finally {
+    pendingVotes.delete(item.id);
   }
 }
 
